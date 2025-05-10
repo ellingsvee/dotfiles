@@ -57,6 +57,9 @@ return {
         store_selection_keys = '<Tab>',
       }
 
+      -- -- Open help for displaying function arguments etc.
+      -- vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, { desc = 'LSP signature help' })
+
       cmp.setup {
         snippet = {
           expand = function(args)
@@ -115,13 +118,24 @@ return {
             end
           end, { 'i', 's' }),
 
-          vim.keymap.set({ 'i', 's' }, '<C-j>', function()
+          -- vim.keymap.set({ 'i', 's' }, '<C-j>', function()
+          --   if require('luasnip').choice_active() then
+          --     require('luasnip').change_choice(1)
+          --   end
+          -- end, { desc = 'Cycle to next choice in Luasnip' }),
+          --
+          -- vim.keymap.set({ 'i', 's' }, '<C-k>', function()
+          --   if require('luasnip').choice_active() then
+          --     require('luasnip').change_choice(-1)
+          --   end
+          -- end, { desc = 'Cycle to previous choice in Luasnip' }),
+          vim.keymap.set({ 'i', 's' }, '<C-n>', function()
             if require('luasnip').choice_active() then
               require('luasnip').change_choice(1)
             end
           end, { desc = 'Cycle to next choice in Luasnip' }),
 
-          vim.keymap.set({ 'i', 's' }, '<C-k>', function()
+          vim.keymap.set({ 'i', 's' }, '<C-p>', function()
             if require('luasnip').choice_active() then
               require('luasnip').change_choice(-1)
             end

@@ -745,13 +745,12 @@ M = {
   --     {condition = in_mathzone}
   -- ),
   --
-  -- s({trig = "app", name = "Approx", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\approx")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
+  s({ trig = 'app', name = 'Approx', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\approx',
+  }, { condition = in_mathzone }),
   --
   -- s({trig = "cn", name = "Congruent", snippetType = "autosnippet"},
   --     {
@@ -1631,7 +1630,16 @@ M = {
   --
   -- -- Delimiters
   --
-  s({ trig = 'dp', name = 'Parenthesis', snippetType = 'autosnippet', wordTrig = false }, {
+  s({ trig = 'pa', name = 'Parenthesis', snippetType = 'autosnippet', wordTrig = false }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '(',
+    d(1, get_visual),
+    t ')',
+  }, { condition = in_mathzone }),
+
+  s({ trig = 'dp', name = 'Left Right Parenthesis', snippetType = 'autosnippet' }, {
     f(function(_, snip)
       return snip.captures[1]
     end),
@@ -1639,7 +1647,7 @@ M = {
     d(1, get_visual),
     t ' \\right)',
   }, { condition = in_mathzone }),
-  s({ trig = 'ds', name = 'Brackets', snippetType = 'autosnippet', wordTrig = false }, {
+  s({ trig = 'ds', name = 'Brackets', snippetType = 'autosnippet' }, {
     f(function(_, snip)
       return snip.captures[1]
     end),
@@ -1648,7 +1656,7 @@ M = {
     t ' \\right]',
   }, { condition = in_mathzone }),
 
-  s({ trig = 'bb', name = 'Braces', snippetType = 'autosnippet', wordTrig = false }, {
+  s({ trig = 'bb', name = 'Braces', snippetType = 'autosnippet' }, {
     f(function(_, snip)
       return snip.captures[1]
     end),
@@ -1682,23 +1690,24 @@ M = {
       },
     }),
   }, { condition = in_mathzone }),
-  --
-  -- s({trig = "da", name = "Pipes", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         c(1,
-  --             {
-  --                 {
-  --                     t("\\left\\lvert "), d(1,get_visual), t(" \\right\\rvert")
-  --                 },
-  --                 {
-  --                     t("\\lvert "), d(1,get_visual), t(" \\rvert")
-  --                 }
-  --             }
-  --         )
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
+
+  s({ trig = 'da', name = 'Pipes', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    c(1, {
+      {
+        t '\\left\\lvert ',
+        d(1, get_visual),
+        t ' \\right\\rvert',
+      },
+      {
+        t '\\lvert ',
+        d(1, get_visual),
+        t ' \\rvert',
+      },
+    }),
+  }, { condition = in_mathzone }),
   --
   -- s({trig = "dn", name = "Double pipes", snippetType = "autosnippet"},
   --     {
@@ -2208,7 +2217,7 @@ M = {
   --     {condition = in_mathzone}
   -- ),
   --
-  s({ trig = 'per', name = 'Percentaje', snippetType = 'autosnippet' }, {
+  s({ trig = 'per', name = 'Percentaje', snippetType = 'autosnippet', wordTrig = false }, {
     f(function(_, snip)
       return snip.captures[1]
     end),

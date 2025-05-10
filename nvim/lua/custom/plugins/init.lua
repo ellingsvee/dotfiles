@@ -44,4 +44,6 @@ return {
   require 'custom.plugins.oil',
   require 'custom.plugins.vimtex',
   require 'custom.plugins.vim-pencil',
+  require 'custom.plugins.nvim-surround',
+  -- require 'custom.plugins.lsp_signature',
 }

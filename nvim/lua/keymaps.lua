@@ -94,3 +94,5 @@ vim.keymap.set('n', '<leader><leader>', '<C-6>', opts)
 -- Remove the behavior of the s key
 -- vim.keymap.set("n", "s", "<Nop>")
 -- vim.keymap.set("x", "s", "<Nop>")
+--
+vim.api.nvim_set_keymap('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
