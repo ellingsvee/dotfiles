@@ -1,5 +1,4 @@
 -- debug.lua
---
 -- Shows how to use the DAP plugin to debug your code.
 --
 -- Primarily focused on configuring the debugger for Go, but can
@@ -23,54 +22,70 @@ return {
 
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
+    'mfussenegger/nvim-dap-python',
   },
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
     {
-      '<F5>',
+      '<leader>dc',
       function()
         require('dap').continue()
       end,
       desc = 'Debug: Start/Continue',
     },
     {
-      '<F1>',
+      '<leader>di',
       function()
         require('dap').step_into()
       end,
       desc = 'Debug: Step Into',
     },
     {
-      '<F2>',
+      '<leader>do',
       function()
         require('dap').step_over()
       end,
       desc = 'Debug: Step Over',
     },
     {
-      '<F3>',
+      '<leader>dO',
       function()
         require('dap').step_out()
       end,
       desc = 'Debug: Step Out',
     },
     {
-      '<leader>b',
+      '<leader>db',
       function()
         require('dap').toggle_breakpoint()
       end,
       desc = 'Debug: Toggle Breakpoint',
     },
     {
-      '<leader>B',
+      '<leader>dB',
       function()
-        require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+        require('dap').clear_breakpoints()
       end,
-      desc = 'Debug: Set Breakpoint',
+      desc = 'Debug: Clear All Breakpoint',
     },
+    -- {
+    --   '<leader>B',
+    --   function()
+    --     require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+    --   end,
+    --   desc = 'Debug: Set Breakpoint',
+    -- },
+    {
+      '<leader>dq',
+      function()
+        require('dap').terminate()
+      end,
+      desc = 'Debug: Terminate',
+    },
+
     -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
     {
-      '<F7>',
+      '<leader>du',
       function()
         require('dapui').toggle()
       end,
@@ -80,6 +95,8 @@ return {
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
+    local dap_python = require 'dap-python'
+    dap_python.setup 'python3'
 
     require('mason-nvim-dap').setup {
       -- Makes a best effort to setup the various debuggers with
@@ -135,6 +152,27 @@ return {
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
+
+    vim.fn.sign_define('DapBreakpoint', {
+      text = '',
+      texthl = 'DiagnosticSignError',
+      linehl = '',
+      numhl = '',
+    })
+
+    vim.fn.sign_define('DapBreakpointRejected', {
+      text = '', -- or "❌"
+      texthl = 'DiagnosticSignError',
+      linehl = '',
+      numhl = '',
+    })
+
+    vim.fn.sign_define('DapStopped', {
+      text = '', -- or "→"
+      texthl = 'DiagnosticSignWarn',
+      linehl = 'Visual',
+      numhl = 'DiagnosticSignWarn',
+    })
 
     -- Install golang specific config
     require('dap-go').setup {

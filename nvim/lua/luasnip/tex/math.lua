@@ -219,7 +219,7 @@ M = {
         t '    ',
         d(1, get_visual),
         t { '', '' },
-        t '\\end{equation*}',
+        t '.\\end{equation*}',
       },
       {
         t '\\begin{equation}',
@@ -227,7 +227,7 @@ M = {
         t '    ',
         d(1, get_visual),
         t { '', '' },
-        t '\\end{equation}',
+        t '.\\end{equation}',
       },
     }),
   }),
@@ -257,13 +257,14 @@ M = {
   --     }
   -- ),
   --
-  -- s({trig = "sp", name = "New split"},
-  --     {
-  -- 		t("\\begin{split}"),
-  -- 		t({"",""}), t("    "), d(1,get_visual),
-  -- 		t({"",""}), t("\\end{split}")
-  --     }
-  -- ),
+  -- s({ trig = 'sp', name = 'New split' }, {
+  --   t '\\begin{split}',
+  --   t { '', '' },
+  --   t '    ',
+  --   d(1, get_visual),
+  --   t { '', '' },
+  --   t '\\end{split}',
+  -- }),
   --
   -- s({trig = "gg", name = "New gather"},
   --     {
@@ -284,24 +285,34 @@ M = {
   --     }
   -- ),
   --
-  -- s({trig = "aa", name = "New align"},
-  --     {
-  --         c(1,
-  --             {
-  --                 {
-  --                     t("\\begin{align*}"),
-  -- 					t({"",""}), t("    "), d(1,get_visual),
-  -- 					t({"",""}), t("\\end{align*}")
-  --                 },
-  --                 {
-  --                     t("\\begin{align}"),
-  -- 					t({"",""}), t("    "), d(1,get_visual),
-  -- 					t({"",""}), t("\\end{align}")
-  --                 }
-  --             }
-  --         )
-  --     }
-  -- ),
+  s({ trig = 'aa', name = 'New align' }, {
+    c(1, {
+      {
+        t '\\begin{align*}',
+        t { '', '' },
+        t '    ',
+        d(1, get_visual),
+        t { '', '' },
+        t '.\\end{align*}',
+      },
+      {
+        t '\\begin{align}',
+        t { '', '' },
+        t '    ',
+        d(1, get_visual),
+        t { '', '' },
+        t '.\\end{align}',
+      },
+      {
+        t '\\begin{aligned}',
+        t { '', '' },
+        t '    ',
+        d(1, get_visual),
+        t { '', '' },
+        t '\\end{aligned}',
+      },
+    }),
+  }),
   --
   -- s({trig = "fal", name = "New falign"},
   --     {
@@ -322,14 +333,13 @@ M = {
   --     }
   -- ),
   --
-  -- s({trig = "(%d?)cs", name = "New cases environment", snippetType = "autosnippet", regTrig = true},
-  -- 	{
-  --         t("\\begin{cases}"),
-  -- 		t({"",""}), d(1,generate_cases),
-  -- 		t({"",""}), t("\\end{cases}")
-  -- 	},
-  --     {condition = in_mathzone}
-  -- ),
+  s({ trig = '(%d?)cs', name = 'New cases environment', snippetType = 'autosnippet', regTrig = true }, {
+    t '\\begin{cases}',
+    t { '', '' },
+    d(1, generate_cases),
+    t { '', '' },
+    t '\\end{cases}',
+  }, { condition = in_mathzone }),
   --
   -- s({trig = "br", name = "Display line break", snippetType = "autosnippet"},
   --     {
@@ -1790,37 +1800,33 @@ M = {
     t '\\quad',
   }, { condition = in_mathzone }),
   --
-  -- s({trig = "qq", name = "Double quad", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\qquad")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "thn", name = "Negative thin space", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\!")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "men", name = "Negative medium space", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\negmedspace")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "tkn", name = "Negative thick space", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\negthickspace")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
+  s({ trig = 'qq', name = 'Double quad', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\qquad',
+  }, { condition = in_mathzone }),
+
+  s({ trig = 'thn', name = 'Negative thin space', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\!',
+  }, { condition = in_mathzone }),
+
+  s({ trig = 'men', name = 'Negative medium space', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\negmedspace',
+  }, { condition = in_mathzone }),
+
+  s({ trig = 'tkn', name = 'Negative thick space', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\negthickspace',
+  }, { condition = in_mathzone }),
   --
   -- s({trig = "hs", name = "Horizontal space", snippetType = "autosnippet"},
   --     {
@@ -1838,277 +1844,245 @@ M = {
   --     {condition = in_mathzone}
   -- ),
   --
-  -- -- Greek alphabet
-  --
-  -- s({ trig = '[.]a', name = 'Alpha', snippetType = 'autosnippet', regTrig = true }, {
-  --   f(function(_, snip)
-  --     return snip.captures[1]
-  --   end),
-  --   t '\\alpha',
-  -- }, { condition = in_mathzone }),
-  --
-  -- s({ trig = '[.]b', name = 'Beta', snippetType = 'autosnippet', regTrig = true }, {
-  --   f(function(_, snip)
-  --     return snip.captures[1]
-  --   end),
-  --   t '\\beta',
-  -- }, { condition = in_mathzone }),
-  --
-  -- s({trig = "[.]c", name = "Chi", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\chi")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]D", name = "Uppercase delta", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\Delta")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]d", name = "Lowercase delta", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\delta")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]e", name = "Epsilon", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  -- 		t("\\varepsilon")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]G", name = "Uppercase gamma", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\Gamma")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]g", name = "Lowercase gamma", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\gamma")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]h", name = "Eta", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\eta")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]i", name = "Iota", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\iota")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]k", name = "Kappa", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\kappa")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]L", name = "Uppercase lambda", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\Lambda")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]l", name = "Lowercase lambda", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\lambda")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]m", name = "Mu", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\mu")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]n", name = "Nu", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\nu")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]O", name = "Uppercase omega", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\Omega")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]o", name = "Lowercase omega", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\omega")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]Ph", name = "Uppercase phi", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\Phi")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]ph", name = "Lowecase phi", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  -- 		t("\\varphi")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]Pi", name = "Uppercase pi", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\Pi")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]pi", name = "Lowercase pi", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\pi")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]Ps", name = "Uppercase psi", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\Psi")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]ps", name = "Lowercase psi", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\psi")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]r", name = "Rho", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\rho")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]S", name = "Uppercase sigma", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\Sigma")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]s", name = "Lowercase sigma", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\sigma")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]ta", name = "Tau", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\tau")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]Th", name = "Uppercase theta", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\Theta")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]th", name = "Lowercase theta", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\theta")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]U", name = "Uppercase upsilon", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\Upsilon")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]u", name = "Lowecase upsilon", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\upsilon")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]X", name = "Uppercase xi", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\Xi")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]x", name = "Lowercase xi", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\xi")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "[.]z", name = "Zeta", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\zeta")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
+  -- Greek alphabet
+
+  s({ trig = '[.]a', name = 'Alpha', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\alpha',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]b', name = 'Beta', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\beta',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]c', name = 'Chi', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\chi',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]D', name = 'Uppercase delta', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\Delta',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]d', name = 'Lowercase delta', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\delta',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]e', name = 'Epsilon', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\varepsilon',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]G', name = 'Uppercase gamma', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\Gamma',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]g', name = 'Lowercase gamma', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\gamma',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]h', name = 'Eta', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\eta',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]i', name = 'Iota', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\iota',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]k', name = 'Kappa', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\kappa',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]L', name = 'Uppercase lambda', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\Lambda',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]l', name = 'Lowercase lambda', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\lambda',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]m', name = 'Mu', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\mu',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]n', name = 'Nu', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\nu',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]O', name = 'Uppercase omega', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\Omega',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]o', name = 'Lowercase omega', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\omega',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]Ph', name = 'Uppercase phi', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\Phi',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]ph', name = 'Lowecase phi', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\varphi',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]Pi', name = 'Uppercase pi', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\Pi',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]pi', name = 'Lowercase pi', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\pi',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]Ps', name = 'Uppercase psi', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\Psi',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]ps', name = 'Lowercase psi', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\psi',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]r', name = 'Rho', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\rho',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]S', name = 'Uppercase sigma', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\Sigma',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]s', name = 'Lowercase sigma', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\sigma',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]ta', name = 'Tau', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\tau',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]Th', name = 'Uppercase theta', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\Theta',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]th', name = 'Lowercase theta', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\theta',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]U', name = 'Uppercase upsilon', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\Upsilon',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]u', name = 'Lowecase upsilon', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\upsilon',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]X', name = 'Uppercase xi', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\Xi',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]x', name = 'Lowercase xi', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\xi',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '[.]z', name = 'Zeta', snippetType = 'autosnippet', regTrig = true }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\zeta',
+  }, { condition = in_mathzone }),
   --
   -- -- Letter-shaped symbols
   --
@@ -2795,7 +2769,7 @@ M = {
   --
   -- -- Integrals
   --
-  s({ trig = 'int', name = 'Integral', snippetType = 'autosnippet' }, {
+  s({ trig = 'itn', name = 'Integral', snippetType = 'autosnippet' }, {
     f(function(_, snip)
       return snip.captures[1]
     end),
@@ -2809,64 +2783,66 @@ M = {
     }),
   }, { condition = in_mathzone }),
   --
-  -- s({trig = "its", name = "Subscript integral", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         c(1,
-  --             {
-  --                 {
-  --                     t("\\int_{"), i(1), t("}")
-  --                 },
-  --                 {
-  --                     t("\\oint_{"), i(1), t("}")
-  --                 }
-  --             }
-  --         )
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "itd", name = "Definite integral", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\int_{"), i(1), t("}^{"), i(2), t("}")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "itbn", name = "Double integral", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         c(1,
-  --             {
-  --                 {
-  --                     i(1,"\\iint")
-  --                 },
-  --                 {
-  --                     i(1,"\\oiint")
-  --                 }
-  --             }
-  --         )
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "itbs", name = "Double integral subscript", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         c(1,
-  --             {
-  --                 {
-  --                     t("\\iint_{"), i(1), t("}")
-  --                 },
-  --                 {
-  --                     t("\\oiint_{"), i(1), t("}")
-  --                 }
-  --             }
-  --         )
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
+  s({ trig = 'its', name = 'Subscript integral', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    c(1, {
+      {
+        t '\\int_{',
+        i(1),
+        t '}',
+      },
+      {
+        t '\\oint_{',
+        i(1),
+        t '}',
+      },
+    }),
+  }, { condition = in_mathzone }),
+
+  s({ trig = 'itd', name = 'Definite integral', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\int_{',
+    i(1),
+    t '}^{',
+    i(2),
+    t '}',
+  }, { condition = in_mathzone }),
+
+  s({ trig = 'itbn', name = 'Double integral', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    c(1, {
+      {
+        i(1, '\\iint'),
+      },
+      {
+        i(1, '\\oiint'),
+      },
+    }),
+  }, { condition = in_mathzone }),
+
+  s({ trig = 'itbs', name = 'Double integral subscript', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    c(1, {
+      {
+        t '\\iint_{',
+        i(1),
+        t '}',
+      },
+      {
+        t '\\oiint_{',
+        i(1),
+        t '}',
+      },
+    }),
+  }, { condition = in_mathzone }),
   --
   -- s({trig = "ittn", name = "Triple integral", snippetType = "autosnippet"},
   --     {
