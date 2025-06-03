@@ -17,7 +17,8 @@ return {
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
 
         disable = { 'latex' },
-        additional_vim_regex_highlighting = { 'latex', 'markdown', 'ruby' },
+        additional_vim_regex_highlighting = { 'latex', 'markdown' },
+        -- additional_vim_regex_highlighting = { 'latex' },
       },
       indent = { enable = true, disable = { 'ruby', 'latex' } },
     },

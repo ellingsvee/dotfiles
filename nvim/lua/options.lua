@@ -64,3 +64,11 @@ vim.opt.scrolloff = 10
 -- vim: ts=2 sts=2 sw=2 et
 
 vim.opt.wrap = false
+
+-- vim.opt.guicursor = {
+--   -- "n-v-c:block",        -- Normal, visual, command: block cursor
+--   -- "i-ci-ve:ver25",      -- Insert, command-line insert: vertical bar cursor
+--   -- "r-cr:hor20",         -- Replace modes: horizontal cursor
+--   -- "o:hor50",            -- Operator-pending mode: horizontal cursor
+--   'a:blinkwait700-blinkon400-blinkoff250', -- Blinking settings for all modes
+-- }

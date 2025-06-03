@@ -427,37 +427,91 @@ M = {
   --
   -- -- Matrix-like environments
   --
-  -- s({trig = "([bBpvV])(%d+)x(%d+)", name = "New matrix", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		t("\\begin{"), f(function(_, snip) return snip.captures[1] .. "matrix" end), t("}"),
-  -- 		t({"",""}), d(1,generate_matrix),
-  -- 		t({"",""}), t("\\end{"), f(function(_, snip) return snip.captures[1] .. "matrix" end), t("}")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  --
-  -- s({trig = "([bBpvV])(%d+)h(%d+)", name = "New homogeneous matrix", snippetType = "autosnippet", regTrig = true},
-  --     {
-  -- 		t("\\begin{"), f(function(_, snip) return snip.captures[1] .. "matrix" end), t("}"),
-  -- 		t({"",""}), d(1,generate_hom_matrix),
-  -- 		t({"",""}), t("\\end{"), f(function(_, snip) return snip.captures[1] .. "matrix" end), t("}")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  --
-  -- s({trig = "([bBpvV])gn", name = "New generic matrix", snippetType = "autosnippet", regTrig = true},
-  --     {
-  --         t("\\begin{"), f(function(_, snip) return snip.captures[1] .. "matrix" end), t("}"),
-  -- 		t({"",""}), t("    "), i(1), t("_{11} & "), rep(1), t("_{12} & \\cdots & "), rep(1), t("_{1"), i(2), t("}"), t(" \\\\"),
-  -- 		t({"",""}), t("    "), rep(1), t("_{21} & "), rep(1), t("_{22} & \\cdots & "), rep(1), t("_{2"), rep(2), t("}"), t(" \\\\"),
-  -- 		t({"",""}), t("    "), t("\\vdots & \\vdots & \\ddots & \\vdots \\\\"),
-  -- 		t({"",""}), t("    "), rep(1), t("_{"), i(3), t("1} & "), rep(1), t("_{"), rep(3), t("2} & \\cdots & "), rep(1), t("_{"), rep(3), rep(2), t("} \\\\"),
-  -- 		t({"",""}), t("\\end{"), f(function(_, snip) return snip.captures[1] .. "matrix" end), t("}")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
+  s({ trig = '([bBpvV])(%d+)x(%d+)', name = 'New matrix', snippetType = 'autosnippet', regTrig = true }, {
+    t '\\begin{',
+    f(function(_, snip)
+      return snip.captures[1] .. 'matrix'
+    end),
+    t '}',
+    t { '', '' },
+    d(1, generate_matrix),
+    t { '', '' },
+    t '\\end{',
+    f(function(_, snip)
+      return snip.captures[1] .. 'matrix'
+    end),
+    t '}',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '([bBpvV])(%d+)h(%d+)', name = 'New homogeneous matrix', snippetType = 'autosnippet', regTrig = true }, {
+    t '\\begin{',
+    f(function(_, snip)
+      return snip.captures[1] .. 'matrix'
+    end),
+    t '}',
+    t { '', '' },
+    d(1, generate_hom_matrix),
+    t { '', '' },
+    t '\\end{',
+    f(function(_, snip)
+      return snip.captures[1] .. 'matrix'
+    end),
+    t '}',
+  }, { condition = in_mathzone }),
+
+  s({ trig = '([bBpvV])gn', name = 'New generic matrix', snippetType = 'autosnippet', regTrig = true }, {
+    t '\\begin{',
+    f(function(_, snip)
+      return snip.captures[1] .. 'matrix'
+    end),
+    t '}',
+    t { '', '' },
+    t '    ',
+    i(1),
+    t '_{11} & ',
+    rep(1),
+    t '_{12} & \\cdots & ',
+    rep(1),
+    t '_{1',
+    i(2),
+    t '}',
+    t ' \\\\',
+    t { '', '' },
+    t '    ',
+    rep(1),
+    t '_{21} & ',
+    rep(1),
+    t '_{22} & \\cdots & ',
+    rep(1),
+    t '_{2',
+    rep(2),
+    t '}',
+    t ' \\\\',
+    t { '', '' },
+    t '    ',
+    t '\\vdots & \\vdots & \\ddots & \\vdots \\\\',
+    t { '', '' },
+    t '    ',
+    rep(1),
+    t '_{',
+    i(3),
+    t '1} & ',
+    rep(1),
+    t '_{',
+    rep(3),
+    t '2} & \\cdots & ',
+    rep(1),
+    t '_{',
+    rep(3),
+    rep(2),
+    t '} \\\\',
+    t { '', '' },
+    t '\\end{',
+    f(function(_, snip)
+      return snip.captures[1] .. 'matrix'
+    end),
+    t '}',
+  }, { condition = in_mathzone }),
   --
   -- -- Subscripts and superscripts
   --
@@ -851,56 +905,69 @@ M = {
   }, { condition = in_mathzone }),
   --
   -- -- Operators
-  --
-  -- s({trig = "opr", name = "Define new operator"},
+  s({ trig = 'opr', name = 'Operator name', snippetType = 'autosnippet', wordTrig = false }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\operatorname{',
+    d(1, get_visual),
+    t '}',
+  }, { condition = in_mathzone }),
+
+  -- s({ trig = 'opr', name = 'Define new operator' }, {
+  --   c(1, {
   --     {
-  --         c(1,
-  --             {
-  --                 {
-  --                     t("\\DeclareMathOperator{"), i(1,"cmd"), t("}{"), i(2,"text"), t("}")
-  --                 },
-  --                 {
-  --                     t("\\DeclareMathOperator*{"), i(1,"cmd"), t("}{"), i(2,"text"), t("}")
-  --                 }
-  --             }
-  --         )
-  --     }
-  -- ),
-  --
-  -- s({trig = "ce", name = "Ceiling", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         c(1,
-  --             {
-  --                 {
-  --                     t("\\lceil "), d(1,get_visual), t(" \\rceil")
-  --                 },
-  --                 {
-  --                     t("\\left\\lceil "), d(1,get_visual), t(" \\right\\rceil")
-  --                 }
-  --             }
-  --         )
+  --       t '\\DeclareMathOperator{',
+  --       i(1, 'cmd'),
+  --       t '}{',
+  --       i(2, 'text'),
+  --       t '}',
   --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "fl", name = "Floor", snippetType = "autosnippet"},
   --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         c(1,
-  --             {
-  --                 {
-  --                     t("\\lfloor "), d(1,get_visual), t(" \\rfloor")
-  --                 },
-  --                 {
-  --                     t("\\left\\lfloor "), d(1,get_visual), t(" \\right\\rfloor")
-  --                 }
-  --             }
-  --         )
-  --
+  --       t '\\DeclareMathOperator*{',
+  --       i(1, 'cmd'),
+  --       t '}{',
+  --       i(2, 'text'),
+  --       t '}',
   --     },
-  --     {condition = in_mathzone}
-  -- ),
+  --   }),
+  -- }),
+  --
+  s({ trig = 'ce', name = 'Ceiling', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    c(1, {
+      {
+        t '\\lceil ',
+        d(1, get_visual),
+        t ' \\rceil',
+      },
+      {
+        t '\\left\\lceil ',
+        d(1, get_visual),
+        t ' \\right\\rceil',
+      },
+    }),
+  }, { condition = in_mathzone }),
+  --
+  s({ trig = 'fl', name = 'Floor', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    c(1, {
+      {
+        t '\\lfloor ',
+        d(1, get_visual),
+        t ' \\rfloor',
+      },
+      {
+        t '\\left\\lfloor ',
+        d(1, get_visual),
+        t ' \\right\\rfloor',
+      },
+    }),
+  }, { condition = in_mathzone }),
   --
   s({ trig = 'sq', name = 'Square root', snippetType = 'autosnippet' }, {
     f(function(_, snip)
@@ -971,6 +1038,12 @@ M = {
     end),
     t '\\pm',
   }, { condition = in_mathzone }),
+  s({ trig = 'too', name = 'To', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\to',
+  }, { condition = in_mathzone }),
   s({ trig = 'tm', name = 'Times', snippetType = 'autosnippet' }, {
     f(function(_, snip)
       return snip.captures[1]
@@ -984,13 +1057,12 @@ M = {
     t '\\cdot',
   }, { condition = in_mathzone }),
   --
-  -- s({trig = "cir", name = "Circle", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\circ")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
+  s({ trig = 'cir', name = 'Circle', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\circ',
+  }, { condition = in_mathzone }),
   --
   -- s({trig = "opl", name = "Oplus", snippetType = "autosnippet"},
   --     {
@@ -1089,37 +1161,33 @@ M = {
     }),
   }, { condition = in_mathzone }),
   --
-  -- s({trig = "arg", name = "Argument", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\arg")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "deg", name = "Degree", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\deg")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "det", name = "Determinant", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\det")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "dim", name = "Dimension", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\dim")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
+  s({ trig = 'arg', name = 'Argument', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\arg',
+  }, { condition = in_mathzone }),
+
+  s({ trig = 'deg', name = 'Degree', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\deg',
+  }, { condition = in_mathzone }),
+
+  s({ trig = 'det', name = 'Determinant', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\det',
+  }, { condition = in_mathzone }),
+
+  s({ trig = 'dim', name = 'Dimension', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\dim',
+  }, { condition = in_mathzone }),
   --
   -- s({trig = "gc", name = "Greatest common divisor", snippetType = "autosnippet"},
   --     {
@@ -1145,14 +1213,13 @@ M = {
   --     {condition = in_mathzone}
   -- ),
   --
-  -- s({trig = "lap", name = "Laplacian", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\nabla^2 ")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
+  s({ trig = 'lap', name = 'Laplacian', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\nabla^2 ',
+  }, { condition = in_mathzone }),
+
   -- s({trig = "div", name = "Divergence", snippetType = "autosnippet"},
   --     {
   -- 		f(function(_,snip) return snip.captures[1] end),
@@ -1534,7 +1601,7 @@ M = {
   --     {condition = in_mathzone}
   -- ),
   --
-  s({ trig = 'exp', name = 'exp', snippetType = 'autosnippet', wordTrig = false }, {
+  s({ trig = 'xp', name = 'exp', snippetType = 'autosnippet', wordTrig = false }, {
     f(function(_, snip)
       return snip.captures[1]
     end),
@@ -1557,36 +1624,33 @@ M = {
   --
   -- -- Ellipsis
   --
-  s({ trig = '...', name = 'Lower dots', snippetType = 'autosnippet' }, {
+  s({ trig = 'dd', name = 'Lower dots', snippetType = 'autosnippet' }, {
     f(function(_, snip)
       return snip.captures[1]
     end),
     t '\\ldots',
   }, { condition = in_mathzone }),
 
-  -- s({trig = "cr", name = "Centered dots", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\cdots")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "vd", name = "Vertical dots", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\vdots")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "gd", name = "Diagonal dots", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\ddots")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
+  s({ trig = 'cr', name = 'Centered dots', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\cdots',
+  }, { condition = in_mathzone }),
+
+  s({ trig = 'vd', name = 'Vertical dots', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\vdots',
+  }, { condition = in_mathzone }),
+
+  s({ trig = 'gd', name = 'Diagonal dots', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\ddots',
+  }, { condition = in_mathzone }),
   --
   -- s({trig = "cln", name = "Colon", snippetType = "autosnippet"},
   --     {
@@ -1606,37 +1670,45 @@ M = {
   --
   -- -- Horizontal extensions
   --
-  -- s({trig = "ovr", name = "Overline", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\overline{"), d(1,get_visual), t("}")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
+  s({ trig = 'ovr', name = 'Overline', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\overline{',
+    d(1, get_visual),
+    t '}',
+  }, { condition = in_mathzone }),
   --
-  -- s({trig = "und", name = "Underline", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\underline{"), d(1,get_visual), t("}")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "ovb", name = "Overbrace", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\overbrace{"), d(1,get_visual), t("}^{"), i(2,"top"), t("}")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "unb", name = "Underbrace", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\underbrace{"), d(1,get_visual), t("}_{"), i(2,"bottom"), t("}")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
+  s({ trig = 'und', name = 'Underline', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\underline{',
+    d(1, get_visual),
+    t '}',
+  }, { condition = in_mathzone }),
+
+  s({ trig = 'ovb', name = 'Overbrace', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\overbrace{',
+    d(1, get_visual),
+    t '}^{',
+    i(2, 'top'),
+    t '}',
+  }, { condition = in_mathzone }),
+
+  s({ trig = 'unb', name = 'Underbrace', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\underbrace{',
+    d(1, get_visual),
+    t '}_{',
+    i(2, 'bottom'),
+    t '}',
+  }, { condition = in_mathzone }),
   --
   -- -- Delimiters
   --
@@ -2150,17 +2222,16 @@ M = {
   --     {condition = in_mathzone}
   -- ),
   --
-  -- s({trig = "pt", name = "Partial", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\partial")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
+  s({ trig = 'pt', name = 'Partial', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\partial',
+  }, { condition = in_mathzone }),
   --
   -- -- Miscellaneous symbols
   --
-  -- s({trig = "dl", name = "Dollar sign", snippetType = "autosnippet"},
+  -- s({trig = "dl", name = "Doglar sign", snippetType = "autosnippet"},
   --     {
   -- 		f(function(_,snip) return snip.captures[1] end),
   --         t("\\$")
@@ -2214,13 +2285,12 @@ M = {
   --     {condition = in_mathzone}
   -- ),
   --
-  -- s({trig = "nb", name = "Nabla", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\nabla")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
+  s({ trig = 'nb', name = 'Nabla', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\nabla',
+  }, { condition = in_mathzone }),
   --
   -- s({trig = "ch", name = "Section symbol"},
   --     {
@@ -2231,28 +2301,33 @@ M = {
   --
   -- -- Accents
   --
-  -- s({trig = "dr", name = "Dot accent", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  -- 		c(1,
-  -- 		    {
-  -- 		        {
-  -- 					t("\\dot{"), v(1,"..."), t("}")
-  -- 		        },
-  -- 		        {
-  -- 					t("\\ddot{"), v(1,"..."), t("}")
-  -- 		        },
-  -- 		        {
-  -- 					t("\\dddot{"), v(1,"..."), t("}")
-  -- 		        },
-  -- 		        {
-  -- 					t("\\ddddot{"), v(1,"..."), t("}")
-  -- 		        }
-  -- 		    }
-  -- 		)
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
+  s({ trig = 'dr', name = 'Dot accent', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    c(1, {
+      {
+        t '\\dot{',
+        v(1, '...'),
+        t '}',
+      },
+      {
+        t '\\ddot{',
+        v(1, '...'),
+        t '}',
+      },
+      {
+        t '\\dddot{',
+        v(1, '...'),
+        t '}',
+      },
+      {
+        t '\\ddddot{',
+        v(1, '...'),
+        t '}',
+      },
+    }),
+  }, { condition = in_mathzone }),
   --
   s({ trig = 'ht', name = 'Hat', snippetType = 'autosnippet' }, {
     f(function(_, snip)
@@ -2280,57 +2355,57 @@ M = {
   --     {condition = in_mathzone}
   -- ),
   --
-  -- s({trig = "til", name = "Tilde", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         c(1,
-  --             {
-  --                 {
-  --                     t("\\tilde{"), i(1), t("}")
-  --                 },
-  --                 {
-  --                     t("\\widetilde{"), i(1), t("}")
-  --                 }
-  --             }
-  --         )
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
+  s({ trig = 'til', name = 'Tilde', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    c(1, {
+      {
+        t '\\tilde{',
+        i(1),
+        t '}',
+      },
+      {
+        t '\\widetilde{',
+        i(1),
+        t '}',
+      },
+    }),
+  }, { condition = in_mathzone }),
   --
-  -- s({trig = "vv", name = "Vector", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         c(1,
-  --             {
-  --                 {
-  --                     t("\\vv{"), v(1,"..."), t("}")
-  --                 },
-  --                 {
-  --                     t("\\vec{"), v(1,"..."), t("}")
-  --                 }
-  --             }
-  --         )
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
+  s({ trig = 'vv', name = 'Vector', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    c(1, {
+      {
+        t '\\vv{',
+        v(1, '...'),
+        t '}',
+      },
+      {
+        t '\\vec{',
+        v(1, '...'),
+        t '}',
+      },
+    }),
+  }, { condition = in_mathzone }),
   --
   -- -- Logic
   --
-  -- s({trig = "fa", name = "For all", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\forall")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
-  --
-  -- s({trig = "ex", name = "Exists", snippetType = "autosnippet"},
-  --     {
-  -- 		f(function(_,snip) return snip.captures[1] end),
-  --         t("\\exists")
-  --     },
-  --     {condition = in_mathzone}
-  -- ),
+  s({ trig = 'fa', name = 'For all', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\forall',
+  }, { condition = in_mathzone }),
+
+  s({ trig = 'ex', name = 'Exists', snippetType = 'autosnippet' }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t '\\exists',
+  }, { condition = in_mathzone }),
   --
   -- s({trig = "nx", name = "Not exist", snippetType = "autosnippet"},
   --     {

@@ -48,9 +48,9 @@ return {
       formatters = {
         my_c_formatter = {
           command = 'clang-format',
-          -- args = '--style="{BasedOnStyle: LLVM}"',
-          -- args = '--style="{BasedOnStyle: LLVM, IndentWidth: 4, TabWidth: 4}"',
-          args = '--style="{BasedOnStyle: Google, IndentWidth: 4, TabWidth: 4, UseTab: Always}"',
+          -- args = '--style="{BasedOnStyle: Google, IndentWidth: 4, TabWidth: 4, UseTab: Always}"',
+          -- args = '--style="{BasedOnStyle: Google, UseTab: Always}"',
+          args = '--style="{BasedOnStyle: Google}"',
         },
       },
     },
