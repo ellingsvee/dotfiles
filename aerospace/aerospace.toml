@@ -213,6 +213,10 @@ run = ['move-node-to-workspace S']
 if.app-id = 'net.kovidgoyal.kitty'
 run = ['move-node-to-workspace C']
 
+[[on-window-detected]]
+if.app-id = 'com.googlecode.iterm2'
+run = ['move-node-to-workspace C']
+
 # [workspace-to-monitor-force-assignment]
 # 1 = ['secondary', 'main']
 # 2 = ['secondary', 'main']
